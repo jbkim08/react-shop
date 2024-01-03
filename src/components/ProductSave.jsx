@@ -52,12 +52,17 @@ const ProductSave = forwardRef((props, ref) => {
     });
   };
 
+  const closeModal = () => {
+    setShow(false); //모달 닫기
+    setProduct(new Product('', '', 0)); //제품 초기화
+  };
+
   return (
     <Modal show={show}>
       <form noValidate onSubmit={saveProduct} className={submitted ? 'was-validated' : ''}>
         <div className="modal-header">
           <h5 className="modal-title">상품 정보</h5>
-          <button type="button" className="btn-close" onClick={() => setShow(false)}></button>
+          <button type="button" className="btn-close" onClick={closeModal}></button>
         </div>
 
         <div className="modal-body">
@@ -108,7 +113,7 @@ const ProductSave = forwardRef((props, ref) => {
         </div>
 
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={() => setShow(false)}>
+          <button type="button" className="btn btn-secondary" onClick={closeModal}>
             닫기
           </button>
           <button type="submit" className="btn btn-primary">
