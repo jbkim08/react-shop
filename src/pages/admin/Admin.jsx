@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import productService from '../../services/Product.service';
+import ProductSave from '../../components/ProductSave';
 
 const Admin = () => {
   const [productList, setProductList] = useState([]);
+  const saveComponent = useRef();
   useEffect(() => {
     productService.getAllProducts().then((response) => {
       setProductList(response.data);
     });
   }, []);
+  const createProductRequest = () => {
+    saveComponent.current?.showProductModal(); //모달 보이게 됨
+  };
   return (
     <div className="container">
       <div className="card mt-5">
@@ -18,7 +23,9 @@ const Admin = () => {
             </div>
 
             <div className="col-6 text-end">
-              <button className="btn btn-primary">새 제품</button>
+              <button onClick={createProductRequest} className="btn btn-primary">
+                새 제품
+              </button>
             </div>
           </div>
         </div>
@@ -35,7 +42,7 @@ const Admin = () => {
             </thead>
             <tbody>
               {productList.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <th scope="col">{index + 1}</th>
                   <td>{item.name}</td>
                   <td>{item.price} 원</td>
@@ -50,6 +57,7 @@ const Admin = () => {
           </table>
         </div>
       </div>
+      <ProductSave ref={saveComponent} />
     </div>
   );
 };

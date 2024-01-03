@@ -1,11 +1,13 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import Product from '../models/Product';
+import { Modal } from 'react-bootstrap';
 
+//상품 저장 및 수정 모달창
 const ProductSave = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     //상위컴포넌트에서 변경
     showProductModal() {
-      setShow(true);
+      setShow(true); //모달창이 보이게 됨
     },
   }));
 
