@@ -16,14 +16,28 @@ const Admin = () => {
     saveComponent.current?.showProductModal(); //모달 보이게 됨
   };
   const saveProductWatcher = (product) => {
-    const newList = productList.concat(product);
-    setProductList(newList); //제품 리스트 업데이트
+    let itemIndex = productList.findIndex((item) => item.id === product.id);
+    //수정하는 경우
+    if (itemIndex !== -1) {
+      const newList = productList.map((item) => {
+        if (item.id === product.id) {
+          return product;
+        }
+        return item;
+      });
+      setProductList(newList);
+    } else {
+      //새로 저장하는 경우
+      const newList = productList.concat(product);
+      setProductList(newList); //제품 리스트 업데이트
+    }
   };
   const editProductRequest = (item) => {
     console.log(item);
     setSelectedProduct(item);
     saveComponent.current?.showProductModal();
   };
+
   return (
     <div className="container">
       <div className="card mt-5">
