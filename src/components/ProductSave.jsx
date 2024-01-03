@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import Product from '../models/Product';
 import { Modal } from 'react-bootstrap';
 import productService from '../services/Product.service';
@@ -8,9 +8,13 @@ const ProductSave = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     //상위컴포넌트에서 변경
     showProductModal() {
-      setShow(true); //모달창이 보이게 됨
+      setTimeout(() => setShow(true), 0);
     },
   }));
+
+  useEffect(() => {
+    setProduct(props.product);
+  }, [props.product]);
 
   const [product, setProduct] = useState(new Product('', '', 0));
   const [errorMessage, setErrorMessage] = useState('');
