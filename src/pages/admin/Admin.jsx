@@ -13,6 +13,10 @@ const Admin = () => {
   const createProductRequest = () => {
     saveComponent.current?.showProductModal(); //모달 보이게 됨
   };
+  const saveProductWatcher = (product) => {
+    const newList = productList.concat(product);
+    setProductList(newList); //제품 리스트 업데이트
+  };
   return (
     <div className="container">
       <div className="card mt-5">
@@ -57,7 +61,7 @@ const Admin = () => {
           </table>
         </div>
       </div>
-      <ProductSave ref={saveComponent} />
+      <ProductSave ref={saveComponent} onSaved={(p) => saveProductWatcher(p)} />
     </div>
   );
 };
