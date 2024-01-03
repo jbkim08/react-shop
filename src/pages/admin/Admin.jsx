@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import productService from '../../services/Product.service';
 import ProductSave from '../../components/ProductSave';
+import Product from '../../models/Product';
 
 const Admin = () => {
   const [productList, setProductList] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(new Product('', '', 0));
   const saveComponent = useRef();
   useEffect(() => {
     productService.getAllProducts().then((response) => {
@@ -16,6 +18,11 @@ const Admin = () => {
   const saveProductWatcher = (product) => {
     const newList = productList.concat(product);
     setProductList(newList); //제품 리스트 업데이트
+  };
+  const editProductRequest = (item) => {
+    console.log(item);
+    setSelectedProduct(item);
+    saveComponent.current?.showProductModal();
   };
   return (
     <div className="container">
@@ -52,7 +59,12 @@ const Admin = () => {
                   <td>{item.price} 원</td>
                   <td>{new Date(item.createTime).toLocaleString()}</td>
                   <td>
-                    <button className="btn btn-primary me-1">수 정</button>
+                    <button
+                      onClick={() => editProductRequest(item)}
+                      className="btn btn-primary me-1"
+                    >
+                      수 정
+                    </button>
                     <button className="btn btn-danger">삭 제</button>
                   </td>
                 </tr>
@@ -61,7 +73,11 @@ const Admin = () => {
           </table>
         </div>
       </div>
-      <ProductSave ref={saveComponent} onSaved={(p) => saveProductWatcher(p)} />
+      <ProductSave
+        ref={saveComponent}
+        product={selectedProduct}
+        onSaved={(p) => saveProductWatcher(p)}
+      />
     </div>
   );
 };
