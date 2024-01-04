@@ -6,7 +6,7 @@ const API_URL = BASE_API_URL + '/api/user';
 
 class UserService {
   changeRole(role) {
-    return axios.put(API_URL + '/change/' + role, {}, { headers: authHeader });
+    return axios.put(API_URL + '/change/' + role, {}, { headers: authHeader() });
   }
 }
 
