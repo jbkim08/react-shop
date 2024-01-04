@@ -42,18 +42,19 @@ const Admin = () => {
     setSelectedProduct(item);
     saveComponent.current?.showProductModal();
   };
-  const deleteProduct = (item) => {
-    if (!window.confirm('정말로 삭제하겠습니까?')) return;
+  //모달창에 확인을 눌렀을때 삭제할 제품을 삭제한다.
+  const deleteProduct = () => {
     productService
-      .deleteProduct(item)
+      .deleteProduct(selectedProduct)
       .then((_) => {
-        setProductList(productList.filter((p) => p.id !== item.id));
+        setProductList(productList.filter((p) => p.id !== selectedProduct.id));
       })
       .catch((err) => {
         setErrorMessage('삭제중 에러발생!');
         console.log(err);
       });
   };
+  // 삭제버튼 누르면 일단 스테이트에 삭제할 제품 업데이트하고 모달을 연다.
   const deleteProductRequest = (item) => {
     console.log(item);
     setSelectedProduct(item);
@@ -117,7 +118,11 @@ const Admin = () => {
         product={selectedProduct}
         onSaved={(p) => saveProductWatcher(p)}
       />
-      <ProductDelete ref={deleteComponent} />
+      <ProductDelete
+        ref={deleteComponent}
+        onConfirmed={() => deleteProduct()}
+        setProduct={setSelectedProduct}
+      />
     </div>
   );
 };
