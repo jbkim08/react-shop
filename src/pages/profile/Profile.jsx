@@ -20,6 +20,7 @@ const Profile = () => {
       .changeRole(newRole)
       .then(() => {
         dispatch(clearCurrentUser()); //유저를 클리어
+        window.location.href = '/login';
       })
       .catch((err) => {
         setErrorMessage('예기치 않은 에러가 발생했습니다.');
