@@ -4,6 +4,8 @@ import productService from '../../services/Product.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import './Home.css';
+import purchaseService from '../../services/purchase.service';
+import Purchase from '../../models/Purchase';
 
 const Home = () => {
   const [productList, setProductList] = useState([]);
@@ -17,6 +19,17 @@ const Home = () => {
       setErrorMessage('로그인하셔야 구매할수 있습니다.');
       return;
     }
+    const purchase = new Purchase(currentUser.id, product.id, product.price);
+
+    purchaseService
+      .savePurchase(purchase)
+      .then(() => {
+        setInfoMessage('구매완료!');
+      })
+      .catch((err) => {
+        setErrorMessage('예상치 못한 에러가 발생했습니다.');
+        console.log(err);
+      });
   };
 
   useEffect(() => {
