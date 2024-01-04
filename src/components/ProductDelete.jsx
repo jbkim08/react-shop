@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import { Modal } from 'react-bootstrap';
 
 //삭제하기 모달 ref 객체를 전달 showDeleteModal()로 모달 표시
 const ProductDelete = forwardRef((props, ref) => {
